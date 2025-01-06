@@ -1,8 +1,12 @@
-const { mockOutlookEvents } = require('../mocks');
+const { mockOutlookCalendar } = require('../mocks');
 
 const getOutlookCalendarEvents = (req, res) => {
   const calendarId = req.query.calendarId;
-  res.json(mockOutlookEvents);
+  if (!mockOutlookCalendar[calendarId]) {
+    return res.status(404).json({ error: 'Calendar ID not found' });
+  }
+
+  res.json(mockOutlookCalendar[calendarId]);
 };
 
 module.exports = {
