@@ -22,11 +22,12 @@ class Calendar {
       );
       const suggestions = this.suggestTimeSlots(calendarId, event);
       console.log(`Suggested Time Slots for ${event.title}:`, suggestions);
-      return;
+      return { conflict, suggestions };
     }
 
     this.calendars[calendarId].push(event);
     console.log(`Added Event: ${event.title} to calendar ${calendarId}`);
+    return { conflict: null, suggestions: [] };
   }
 
   suggestTimeSlots(calendarId, event) {

@@ -24,9 +24,17 @@ const addGoogleCalendarEvent = (req, res) => {
   }
 
   const newEvent = new Event(event.eventId, event.title, event.startTime, event.endTime, event.attendees);
-  googleCalendar.addEvent(calendarId, newEvent);
+  response = googleCalendar.addEvent(calendarId, newEvent);
 
-  res.status(201).json({ message: 'Event added successfully' });
+  if (response.conflict) {
+    return res.status(409).json({
+      error: 'Event conflicts with existing event',
+      conflict: response.conflict,
+      suggestions: response.suggestions,
+    });
+  } else {
+    return res.status(201).json({ message: 'Event added successfully' });
+  }
 };
 
 module.exports = {
