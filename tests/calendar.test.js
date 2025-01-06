@@ -44,19 +44,6 @@ describe('Calendar Integration Example Workflow', () => {
           ]
         });
       }
-      if (url.includes('ical')) {
-        return Promise.resolve({
-          data: [
-            {
-              UID: 'ical-1',
-              SUMMARY: 'Project Kickoff',
-              DTSTART: '20250104T090000Z',
-              DTEND: '20250104T100000Z',
-              ATTENDEES: ['user-1', 'user-3']
-            }
-          ]
-        });
-      }
       return Promise.reject(new Error('Unknown provider'));
     });
 

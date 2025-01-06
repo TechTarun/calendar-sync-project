@@ -33,8 +33,41 @@ class Event {
           data.DTEND,
           data.ATTENDEES
         );
+      default:
+        throw new Error('Unknown provider');
+    }
+  }
+
+  toProviderData(provider) {
+    switch (provider) {
+      case 'google':
+        return {
+          eventId: this.eventId,
+          summary: this.title,
+          start: { dateTime: this.startTime },
+          end: { dateTime: this.endTime },
+          attendees: this.participants
+        };
+      case 'outlook':
+        return {
+          id: this.eventId,
+          subject: this.title,
+          start: this.startTime,
+          end: this.endTime,
+          participants: this.participants
+        };
+      case 'ical':
+        return {
+          UID: this.eventId,
+          SUMMARY: this.title,
+          DTSTART: this.startTime,
+          DTEND: this.endTime,
+          ATTENDEES: this.participants
+        };
+      default:
+        throw new Error('Unknown provider');
     }
   }
 }
 
-  module.exports = { Event };
+module.exports = { Event };

@@ -99,7 +99,7 @@ class Calendar {
 
         events.forEach(event => this.addEvent(calendarId, event));
 
-        console.log('Sync completed successfully.');
+        console.log(`Successfully synced events for calendar ${calendarId} from ${provider}`);
         return;
       } catch (error) {
         console.error('Error syncing with external calendar:', error);
