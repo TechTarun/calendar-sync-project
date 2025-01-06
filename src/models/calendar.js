@@ -1,6 +1,6 @@
-const { Auth } = require('./auth');
-const { Event } = require('./event');
 const axios = require('axios');
+const { Event } = require('./event');
+const { Auth } = require('./auth');
 
 class Calendar {
   constructor() {
@@ -44,10 +44,15 @@ class Calendar {
       const currentStart = new Date(existingEvent.startTime);
 
       if (previousEnd < currentStart) {
-        suggestions.push({
-          start: previousEnd.toISOString(),
-          end: currentStart.toISOString()
-        });
+        const suggestionStart = previousEnd;
+        const suggestionEnd = currentStart;
+
+        if (suggestionEnd - suggestionStart >= event.endTime - event.startTime) {
+          suggestions.push({
+            start: suggestionStart,
+            end: suggestionEnd
+          });
+        }
       }
 
       previousEnd = new Date(existingEvent.endTime);
@@ -55,8 +60,8 @@ class Calendar {
 
     if (previousEnd < endOfDay) {
       suggestions.push({
-        start: previousEnd.toISOString(),
-        end: endOfDay.toISOString()
+        start: previousEnd,
+        end: endOfDay
       });
     }
 
@@ -92,16 +97,20 @@ class Calendar {
         });
         const events = response.data.map((data) => Event.fromProviderData(data, provider));
 
-        events.forEach((event) => this.addEvent(calendarId, event));
-        console.log(`Successfully synced events for calendar ${calendarId} from ${provider}`);
-        break; // Exit loop on success
+        events.forEach(event => this.addEvent(calendarId, event));
+
+        console.log('Sync completed successfully.');
+        return;
       } catch (error) {
+        console.error('Error syncing with external calendar:', error);
         attempt++;
         if (attempt >= maxRetries) {
-          console.error(`Error syncing calendar ${calendarId} after ${maxRetries} attempts: ${error.message}`);
-        } else {
-          console.warn(`Retrying... Attempt ${attempt} of ${maxRetries}`);
+          console.error('Max retries reached. Sync failed.');
+          return;
         }
+        const delay = Math.pow(2, attempt) * 1000; // Exponential backoff
+        console.log(`Retrying in ${delay / 1000} seconds...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
       }
     }
   }
