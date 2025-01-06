@@ -1,4 +1,5 @@
-const mockGoogleEvents = [
+const mockGoogleCalendar = {
+  "gcal-1": [
     {
       eventId: "g-1",
       summary: "Team Meeting",
@@ -6,9 +7,10 @@ const mockGoogleEvents = [
       end: { dateTime: "2025-01-04T11:00:00Z" },
       attendees: ["user-1", "user-2"]
     }
-  ];
+  ]};
   
-  const mockOutlookEvents = [
+  const mockOutlookCalendar = {
+    "outlook-cal-1": [
     {
       id: "o-1",
       subject: "Client Call",
@@ -16,9 +18,10 @@ const mockGoogleEvents = [
       end: "2025-01-04T13:00:00Z",
       participants: ["user-1"]
     }
-  ];
+  ]};
   
-  const mockICalEvents = [
+  const mockICal = {
+    "ical-1": [
     {
       UID: "ical-1",
       SUMMARY: "Project Kickoff",
@@ -26,10 +29,10 @@ const mockGoogleEvents = [
       DTEND: "20250104T100000Z",
       ATTENDEES: ["user-1", "user-3"]
     }
-  ];
+  ]};
 
   module.exports = {
-    mockGoogleEvents,
-    mockOutlookEvents,
-    mockICalEvents,
+    mockGoogleCalendar,
+    mockOutlookCalendar,
+    mockICal,
   };

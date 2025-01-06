@@ -1,10 +1,8 @@
 const express = require('express');
-const { mockOutlookEvents } = require('../mocks');
+const { getOutlookCalendarEvents } = require('../controllers/outlookCalendarController');
 
 const router = express.Router();
 
-router.get('/events', (req, res) => {
-  res.json(mockOutlookEvents);
-});
+router.get('/events', getOutlookCalendarEvents);
 
 module.exports = router;
