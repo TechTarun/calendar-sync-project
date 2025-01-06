@@ -58,6 +58,11 @@ Execute the test cases:
 npm test
 ```
 
+## Testing the APIs
+- Fetch Events (GET): `http://localhost:3000/ical/events?calendarId=<calendarId>`
+    - Return events with 200 status if calendar ID is found
+    - Return 404 status with error message if calendar ID is not found
+
 ## Error Handling Scenarios
 
 - `Network Errors`: If there is a network error while fetching events from an external calendar, the system will retry up to 3 times before logging an error message and aborting the sync process.
