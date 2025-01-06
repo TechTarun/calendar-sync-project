@@ -1,8 +1,9 @@
 const express = require('express');
-const { getICalEvents } = require('../controllers/icalController');
+const { getICalEvents, addICalEvent } = require('../controllers/icalController');
 
 const router = express.Router();
 
 router.get('/events', getICalEvents);
+router.post('/add-event', addICalEvent);
 
 module.exports = router;
